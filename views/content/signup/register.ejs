@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html class="bg-black">
+    <head>
+        <meta charset="UTF-8">
+        <title>MyBooks | Registration Page</title>
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <!-- bootstrap 3.0.2 -->
+        <link href="assets/backend/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- font Awesome -->
+        <link href="assets/backend/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- Theme style -->
+        <link href="assets/backend/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+          <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+          <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+          <script>
+          $(function() {
+            $( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+          });
+          </script>
+    </head>
+    <body class="bg-black">
+
+        <div class="form-box" id="login-box">
+            <div class="header">Register New Membership</div>
+            <form action="/signup" method="post">
+                <div class="body bg-gray">
+
+                    <% if(data != 0) { %>
+                    <% for(var i=0; i < data.length; i++) { %>
+                      <p class="text-red"><%= data[i].msg %></p>
+                    <% } %>
+                    <% } %>
+                    <% if(succ == 1){ %>
+                     <p class="text-green">Successfully added.</p>
+                    <% } %>
+                    <% if(msg != 0){ %>
+                        <p class="text-red"><%= msg %></p>
+                    <% } %>
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-control" placeholder="Full name"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control" placeholder="User Namae"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-control" placeholder="E-mail Address"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Password"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password2" class="form-control" placeholder="Retype password"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth:</label>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input type="text" class="form-control signupForm disabled" placeholder="yyyy-mm-dd" name="dob" id="datepicker" autocomplete="off"/>
+                        </div><!-- /.input group -->
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <div class="form-group"> 
+                            <div class="radio" style="margin-left:20px;">
+                                <label class="">
+                                    <input type="radio" name="gender" class ="signupForm" checked value="male">
+                                    Male
+                                </label>
+                            </div>
+                            <div class="radio" style="margin-left:20px;">
+                                <label class="">
+                                    <input type="radio" name="gender" class="signupForm" value="female">
+                                    Female
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">                    
+
+                    <button type="submit" class="btn bg-olive btn-block">Sign me up</button>
+
+                    <a href="/" class="text-center">I already have a membership</a>
+                </div>
+            </form>
+
+            <!--div class="margin text-center">
+                <span>Register using social networks</span>
+                <br/>
+                <button class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>
+                <button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>
+                <button class="btn bg-red btn-circle"><i class="fa fa-google-plus"></i></button>
+
+            </div-->
+        </div>
+
+
+    </body>
+</html>

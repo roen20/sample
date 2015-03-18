@@ -1,0 +1,120 @@
+<% include ../../dashboard_partials/header %>
+<% include ../../dashboard_partials/menu %>
+<% include ../../dashboard_partials/sidebar %>
+<!-- Right side column. Contains the navbar and content of the page -->
+<aside class="right-side">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+Books
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href=""><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">
+                Books
+            </li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Users Table With Full Features</h3>                                    
+                    </div><!-- /.box-header -->
+                    <div class="box-header">
+                        <div class="form-group col-xs-3"> 
+                            <div class="input-group input-group-sm">
+                                <select class="form-control" id="bulk">
+                                    <option value='' >- Bulk Action -</option>
+                                    <option value='delete' >Delete</option>
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info btn-flat" type="button" onclick="getDelete();
+                                            return false;">Apply</button>
+                                </span>
+                            </div>
+                        </div>
+                        <a href ="/booksadd" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;&nbsp;Add New</a>
+                    </div>
+                    <div class="box-body table-responsive">
+                        <table id="table-users" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" name="" id="check-all"></th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Publish Date</th>
+                                    <th>Author</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% for(var i=0; i < booksdata.results.length; i++) { %>
+                               <tr>
+                                  <th><input type="checkbox" value="<%= booksdata.results[i].objectId %>" class="check_item" /></th>
+                                 <td><%= booksdata.results[i].title %></td>
+                                 <td><%= booksdata.results[i].description %></td>
+                                 <td><%= new Date(booksdata.results[i].publishDate).toDateString() %></td>
+                                <% for(var x = 0;x < myrole.results.length; x++){ %>
+                                    <% if(myrole.results[x].objectId == booksdata.results[i].author){ %>
+                                     <td><%= myrole.results[x].name.replace(/(?:(^.{1})|\ [a-z]{1})/g, function(a){return a.toUpperCase(); }); %></td>
+                                    <% } %>
+                                <% } %>
+                                <th><div class="tools">
+                                    <a href="/edit/<%= booksdata.results[i].objectId %>"><i class="fa fa-edit"></i> Edit</a>
+                                   </div></th>
+                               </tr>
+                            <% } %>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th><input type="checkbox" name="" id="check-all"></th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Publish Date</th>
+                                    <th>Author</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+</aside><!-- /.right-side -->
+</div><!-- ./wrapper -->
+
+<script>
+    function getDelete() {
+        $bulk = $('#bulk').val();
+        $list = "";
+        $('.check_item').each(function(i, o) {
+            if ($(o).is(':checked')) {
+                $list += $(o).val() + ',';
+            }
+        });
+        if ($bulk == "delete") {
+            if ($list == "") {
+                alert('Please choose some data, if you want to delete.');
+            } else {
+                if (confirm("Are you sure?") == false) {
+                    return false;
+                } else {
+                    //alert(escape($list))
+                    window.location = $base_url + "books/delete/" + escape($list);
+                }
+            }
+        } else {
+            alert("Please select bulk action.");
+        }
+
+    }
+</script>
+<% include ../../dashboard_partials/footer %>
+

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>MyBooks | <%= title.toLowerCase().replace(/(?:(^.{1})|\ [a-z]{1})/g, function(a){return a.toUpperCase();}); %></title>
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>     
+        <!-- bootstrap 3.0.2 -->                                                                                    
+        <link href="assets/backend/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- font Awesome -->
+        <link href="assets/backend/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- Ionicons -->
+        <link href="assets/backend/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- daterange picker -->
+        <link href="assets/backend/css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+        <% if (page == "users" || page == "books") { %>
+            <link href="assets/backend/css/iCheck/minimal/blue.css" rel="stylesheet" type="text/css" />
+            <!-- DATA TABLES -->
+            <link href="assets/backend/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+        <% } else { %>
+            <!-- Morris chart -->
+            <link href="assets/backend/css/morris/morris.css" rel="stylesheet" type="text/css" />
+            <!-- jvectormap -->
+            <link href="assets/backend/css/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+            <!-- fullCalendar -->
+            <link href="assets/backend/css/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
+            <!-- Daterange picker -->
+            <link href="assets/backend/css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+            <!-- bootstrap wysihtml5 - text editor -->
+            <link href="assets/backend/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+            <link href="assets/backend/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+        <% } %>
+        <link href="assets/backend/jquery/uploadify_31/uploadify.css" type="text/css" media="screen" rel="stylesheet"/>
+        <link href="assets/backend/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+        <!-- Theme style -->
+        <link href="assets/backend/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+        <script>
+            $base_url = "http://localhost:3000/";
+
+        </script>
+        <script type="text/javascript">
+//            $(document).ready(function() {
+//                var options = {
+//                    target: '#output', // target element(s) to be updated with server response 
+//                    beforeSubmit: beforeSubmit, // pre-submit callback 
+//                    success: afterSuccess, // post-submit callback 
+//                    resetForm: true        // reset the form after successful submit 
+//                };
+//
+//                $('#MyUploadForm').submit(function() {
+//                    $(this).ajaxSubmit(options);
+//                    // always return false to prevent standard browser submit and page navigation 
+//                    return false;
+//                });
+//            });
+
+            function afterSuccess()
+            {
+                $('#submit-btn').show(); //hide submit button
+                $('#loading-img').hide(); //hide submit button
+
+            }
+
+            //function to check file size before uploading.
+            function beforeSubmit() {
+                //check whether browser fully supports all File API
+                if (window.File && window.FileReader && window.FileList && window.Blob)
+                {
+
+                    if (!$('#imageInput').val()) //check empty input filed
+                    {
+                        $("#output").html("Are you kidding me?");
+                        return false
+                    }
+
+                    var fsize = $('#imageInput')[0].files[0].size; //get file size
+                    var ftype = $('#imageInput')[0].files[0].type; // get file type
+
+
+                    //allow only valid image file types 
+                    switch (ftype)
+                    {
+                        case 'image/png':
+                        case 'image/gif':
+                        case 'image/jpeg':
+                        case 'image/pjpeg':
+                            break;
+                        default:
+                            $("#output").html("<b>" + ftype + "</b> Unsupported file type!");
+                            return false
+                    }
+
+                    //Allowed file size is less than 1 MB (1048576)
+                    if (fsize > 1048576)
+                    {
+                        $("#output").html("<b>" + bytesToSize(fsize) + "</b> Too big Image file! <br />Please reduce the size of your photo using an image editor.");
+                        return false
+                    }
+
+                    $('#submit-btn').hide(); //hide submit button
+                    $('#loading-img').show(); //hide submit button
+                    $("#output").html("");
+                }
+                else
+                {
+                    //Output error to older unsupported browsers that doesn't support HTML5 File API
+                    $("#output").html("Please upgrade your browser, because your current browser lacks some new features we need!");
+                    return false;
+                }
+            }
+
+            //function to format bites bit.ly/19yoIPO
+            function bytesToSize(bytes) {
+                var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                if (bytes == 0)
+                    return '0 Bytes';
+                var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+                return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+            }
+
+        </script>        
+        <link href="assets/backend/css/style.css" rel="stylesheet" type="text/css">
+        <!--
+     <script type="text/javascript">less = {env: "development", async: false};</script>
+     <link rel="stylesheet/less" type="text/css" href="../../js/tinymce/skins/lightgray/skin.dev.less">
+     <script src="../../node_modules/less/dist/less-1.4.2.min.js"></script>
+        -->
+        <script src="assets/backend/tinymce/tinymce.dev.js"></script>
+        <script src="assets/backend/tinymce/plugins/table/plugin.dev.js"></script>
+        <script src="assets/backend/tinymce/plugins/paste/plugin.dev.js"></script>
+        <script src="assets/backend/tinymce/plugins/spellchecker/plugin.dev.js"></script>
+        <script>
+            for (var i = 1; i <= 5; i++) {
+                withemoicon = "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons table";
+                withoutemoicon = "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image";
+                tinymce.init({
+                    selector: "textarea#elm" + i,
+                    theme: "modern",
+                    plugins: [
+                        "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                        "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                        "save table contextmenu directionality emoticons template paste textcolor importcss colorpicker textpattern"
+                    ],
+                    external_plugins: {
+                        //"moxiemanager": "/moxiemanager-php/plugin.js"
+                    },
+                    content_css: "css/development.css",
+                    add_unload_trigger: false,
+                    toolbar: ((i == 1) ? withemoicon : withoutemoicon),
+                    image_advtab: true,
+                    style_formats: [
+                        {title: 'Bold text', format: 'h1'},
+                        {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+                        {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+                        {title: 'Example 1', inline: 'span', classes: 'example1'},
+                        {title: 'Example 2', inline: 'span', classes: 'example2'},
+                        {title: 'Table styles'},
+                        {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+                    ],
+                    template_replace_values: {
+                        username: "Jack Black"
+                    },
+                    template_preview_replace_values: {
+                        username: "Preview user name"
+                    },
+                    link_class_list: [
+                        {title: 'Example 1', value: 'example1'},
+                        {title: 'Example 2', value: 'example2'}
+                    ],
+                    image_class_list: [
+                        {title: 'Example 1', value: 'example1'},
+                        {title: 'Example 2', value: 'example2'}
+                    ],
+                    templates: [
+                        {title: 'Some title 1', description: 'Some desc 1', content: '<strong class="red">My content: {$username}</strong>'},
+                        {title: 'Some title 2', description: 'Some desc 2', url: 'development.html'}
+                    ],
+                    setup: function(ed) {
+                        /*ed.on(
+                         'Init PreInit PostRender PreProcess PostProcess BeforeExecCommand ExecCommand Activate Deactivate ' +
+                         'NodeChange SetAttrib Load Save BeforeSetContent SetContent BeforeGetContent GetContent Remove Show Hide' +
+                         'Change Undo Redo AddUndo BeforeAddUndo', function(e) {
+                         console.log(e.type, e);
+                         });*/
+                    },
+                    spellchecker_callback: function(method, data, success) {
+                        if (method == "spellcheck") {
+                            var words = data.match(this.getWordCharPattern());
+                            var suggestions = {};
+
+                            for (var i = 0; i < words.length; i++) {
+                                suggestions[words[i]] = ["First", "second"];
+                            }
+
+                            success({words: suggestions, dictionary: true});
+                        }
+
+                        if (method == "addToDictionary") {
+                            success();
+                        }
+                    }
+                });
+            }
+        </script>   
+    </head>
+    <body class="skin-blue">

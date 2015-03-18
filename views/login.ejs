@@ -1,0 +1,23 @@
+ <html>
+    <head>
+<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+    
+    <body>
+<% if(data != 0) { %>
+<table>
+<% for(var i=0; i < data.length; i++) { %>
+   <tr>
+     <td><%= data[i].msg %></td>
+   </tr>
+<% } %>
+<% } %>
+</table>
+<!--For Login-->
+    <form method='post' action='/login'>
+        <input type="text" name='email' value=''/>
+        <input type="password" name='password' value=''/>
+        <input type='submit' value='Login' />
+      </form>
+    </body>
+  </html>

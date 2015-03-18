@@ -1,0 +1,29 @@
+ <html>
+    <head>
+<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+    <body>
+<% if(data != 0) { %>
+<table>
+<% for(var i=0; i < data.length; i++) { %>
+   <tr>
+     <td><%= data[i].msg %></td>
+   </tr>
+<% } %>
+<% } %>
+<% if(succ == 1){ %>
+ <tr><td>Successfully added.</td></tr>
+<% } %>
+
+</table>
+<!--For Signup-->
+      <form method='post' action='/signup'>
+        <input type="text" name='username' value=''/>
+        <input type="password" name='password' value=''/>
+        <input type="password" name='cpassword' value=''/>
+        <input type="email" name='email' value=''/>
+        <input type='submit' value='Sign Up' />
+      </form
+    </body>
+  </html>

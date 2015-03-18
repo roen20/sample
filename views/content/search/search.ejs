@@ -1,0 +1,85 @@
+<% include ../../dashboard_partials/header %>
+<% include ../../dashboard_partials/menu %>
+<% include ../../dashboard_partials/sidebar %>
+<!-- Right side column. Contains the navbar and content of the page -->
+<aside class="right-side">                
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <%= title.toLowerCase().replace(/(?:(^.{1})|\ [a-z]{1})/g, function(a){return a.toUpperCase(); }) %>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Pages</a></li>
+            <li class="active"><%= title.toLowerCase().replace(/(?:(^.{1})|\ [a-z]{1})/g, function(a){return a.toUpperCase(); }) %></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+
+                <form method="post" action="/searchbooks">
+                    <div class='input-group'>
+                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                        <input type="text" name="search" class='form-control' placeholder="Search the Title of Books, (e.i. My Way, etc.)..."/>
+                        <div class="input-group-btn">
+                            <button type="submit" name="submit" class="btn btn-primary btn-flat">Search</button>
+                        </div>
+                    </div><!-- /.input-group -->
+                </form>
+<% if(search != 0){ %>
+    <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body table-responsive">
+                        <table id="table-users" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Publish Date</th>
+                                    <th>Author</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% for(var i=0; i < booksdata.results.length; i++) { %>
+                               <tr>
+                                 <td><%= booksdata.results[i].title %></td>
+                                 <td><%= booksdata.results[i].description %></td>
+                                 <td><%= new Date(booksdata.results[i].publishDate).toDateString() %></td>
+                                <% for(var x = 0;x < myrole.results.length; x++){ %>
+                                    <% if(myrole.results[x].objectId == booksdata.results[i].author){ %>
+                                     <td><%= myrole.results[x].name.replace(/(?:(^.{1})|\ [a-z]{1})/g, function(a){return a.toUpperCase(); }); %></td>
+                                    <% } %>
+                                <% } %>
+                               </tr>
+                            <% } %>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Publish Date</th>
+                                    <th>Author</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
+        </div>
+    <% }else{ %>
+       <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body table-responsive">
+                    <h2>Search other books...</h2>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
+        </div>
+    <% } %>
+    </section><!-- /.content -->
+</aside><!-- /.right-side -->
+<% include ../../dashboard_partials/footer %>
